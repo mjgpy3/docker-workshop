@@ -17,7 +17,7 @@ app.post('/file', (req, res) => {
 
   const filename = `${uuid.v4()}.json`;
 
-  fs.writeFile(`/tmp2/${filename}`, JSON.stringify(req.body), (err) => {
+  fs.writeFile(`/tmp/${filename}`, JSON.stringify(req.body), (err) => {
     if (err) {
       return res.status(500).send('failed to save content');
     }
