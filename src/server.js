@@ -2,6 +2,11 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 var uuid = require('node-uuid');
+var redis = require("redis"),
+  redisClient = redis.createClient({
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+  });
 
 app.use(require('body-parser').json());
 
@@ -23,6 +28,20 @@ app.post('/file', (req, res) => {
     }
 
     res.send(`The file was saved as ${filename}`);
+  });
+});
+
+const key = 'data';
+
+app.post('/data', (req, res) => {
+  console.log('POST /data :)');
+  console.log('CONTENT:', req.body);
+
+  redisClient.lpush(key, req.body, (err, data) => {
+    if (err) {
+      return res.status(500).send(`failed to save content ${err}`);
+    }
+    return res.send('saved successfully');
   });
 });
 
