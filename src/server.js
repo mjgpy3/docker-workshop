@@ -37,7 +37,7 @@ app.post('/data', (req, res) => {
   console.log('POST /data :)');
   console.log('CONTENT:', req.body);
 
-  redisClient.lpush(key, req.body, (err, data) => {
+  redisClient.lpush(key, JSON.stringify(req.body), (err, data) => {
     if (err) {
       return res.status(500).send(`failed to save content ${err}`);
     }
