@@ -1,0 +1,37 @@
+balancer:
+  build: ./balancer
+  environment:
+    INSTANCES: app,app2,app3
+  ports:
+    - "3000:3000"
+  links:
+    - app
+    - app2
+    - app3
+
+app:
+  build: ./service
+  environment:
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+  links:
+    - redis
+
+app2:
+  build: ./service
+  environment:
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+  links:
+    - redis
+
+app3:
+  build: ./service
+  environment:
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+  links:
+    - redis
+
+redis:
+  image: redis

@@ -19,7 +19,7 @@ app.post('/data', (req, res) => {
     })
     .then(
       () => res.send('success'),
-      () => res.send('failure')
+      err => res.status(500).send(`failure, ${err}`)
     );
 });
 
